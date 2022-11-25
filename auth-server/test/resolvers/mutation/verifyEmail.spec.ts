@@ -4,7 +4,7 @@
 import { AuthenticationError } from 'apollo-server';
 import { expect } from 'chai';
 import 'mocha';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import User from '../../../src/model/User';
 import verifyEmail from '../../../src/resolvers/mutation/verifyEmail';

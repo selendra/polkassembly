@@ -19,7 +19,7 @@ import messages from '../../../src/utils/messages';
 import { redisSetex, redisGet, redisDel } from '../../../src/redis';
 import { getSetCredentialsKey, getAddressSignupKey, ADDRESS_LOGIN_TTL, getAddressLoginKey } from '../../../src/services/auth';
 
-describe('addressSignup mutation on Polkadot', () => {
+describe('addressSignup mutation on Selendra', () => {
 	const fakectx: Context = {
 		req: {
 			headers: {}
@@ -28,7 +28,7 @@ describe('addressSignup mutation on Polkadot', () => {
 			cookie: () => {}
 		}
 	} as any;
-	const network = NetworkEnum.POLKADOT;
+	const network = NetworkEnum.SELENDRA;
 	const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; //Alice
 	const signMessage = 'db204645-4daf-43b6-b023-6c6ce99ee888';
 	const signature = '0x76dc17a59f98939b311637b6a7b76c4c2797c7251a8f03022c48c51f2312dc1c59b981f916898dd8fbacd60b426815807ed0d3e9b67bedcf5290035c3887c58e';
@@ -64,7 +64,7 @@ describe('addressSignup mutation on Polkadot', () => {
 
 		const token: any = jwt.decode(result.token);
 
-		expect(token['https://hasura.io/jwt/claims']['x-hasura-polkadot-default']).to.equals(address);
+		expect(token['https://hasura.io/jwt/claims']['x-hasura-selendra-default']).to.equals(address);
 		expect(token['https://hasura.io/jwt/claims']['x-hasura-user-id']).to.equals(token.sub);
 
 		const dbuser = await User
@@ -100,7 +100,7 @@ describe('addressSignup mutation on Polkadot', () => {
 		const token: any = jwt.decode(result.token);
 
 		loginResultUserId = Number(token.sub);
-		expect(token['https://hasura.io/jwt/claims']['x-hasura-polkadot-default']).to.equals(address);
+		expect(token['https://hasura.io/jwt/claims']['x-hasura-selendra-default']).to.equals(address);
 		expect(token['https://hasura.io/jwt/claims']['x-hasura-user-id']).to.equals(token.sub);
 	});
 

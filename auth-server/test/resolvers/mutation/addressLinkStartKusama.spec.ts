@@ -5,7 +5,7 @@
 import { expect } from 'chai';
 import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import 'mocha';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import User from '../../../src/model/User';
 import Address from '../../../src/model/Address';
@@ -14,7 +14,7 @@ import { Context, NetworkEnum } from '../../../src/types';
 import messages from '../../../src/utils/messages';
 import { getNewUserCtx } from '../../helpers';
 
-describe('addressLinkStart mutation on Kusama', () => {
+describe('addressLinkStart mutation on ', () => {
 	let signupUserId = -1;
 	let fakectx: Context;
 	let dbAddressId: any;
@@ -40,8 +40,8 @@ describe('addressLinkStart mutation on Kusama', () => {
 			.del();
 	});
 
-	it('should be able to start linking address on Kusama', async () => {
-		const network = NetworkEnum.KUSAMA;
+	it('should be able to start linking address on ', async () => {
+		const network = NetworkEnum.KUMANDRA;
 		const address = 'HNZata7iMYWmk5RvZRTiAsSDhV8366zq2YGb3tLH5Upf74F'; // Alice
 		const res = await addressLinkStart(undefined, { network, address }, fakectx);
 
@@ -62,8 +62,8 @@ describe('addressLinkStart mutation on Kusama', () => {
 		dbAddressId = dbAddress?.id;
 	});
 
-	it('should not be able to start linking address if it already exists in db on Kusama', async () => {
-		const network = NetworkEnum.KUSAMA;
+	it('should not be able to start linking address if it already exists in db on ', async () => {
+		const network = NetworkEnum.KUMANDRA;
 		const address = 'FoQJpPyadYccjavVdTWxpxU7rUEaYhfLCPwXgkfD6Zat9QP'; // Bob
 		const dbAddress = await Address
 			.query()
@@ -90,8 +90,8 @@ describe('addressLinkStart mutation on Kusama', () => {
 			.del();
 	});
 
-	it('should not be able to start linking address with wrong jwt on Kusama', async () => {
-		const network = NetworkEnum.KUSAMA;
+	it('should not be able to start linking address with wrong jwt on ', async () => {
+		const network = NetworkEnum.KUMANDRA;
 		const address = 'HNZata7iMYWmk5RvZRTiAsSDhV8366zq2YGb3tLH5Upf74F'; // Alice
 		fakectx.req.headers.authorization = 'Bearer wrong';
 		try {

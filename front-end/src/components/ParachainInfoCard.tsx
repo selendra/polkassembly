@@ -6,67 +6,41 @@ import styled from '@xstyled/styled-components';
 import { Divider } from 'antd';
 import React from 'react';
 import kusamaLogo from 'src/assets/kusama-logo.gif';
-import auctionIcon from 'src/assets/parachains/auction.png';
 import chainIcon from 'src/assets/parachains/chain-link.png';
-import crowdloansIcon from 'src/assets/parachains/crowdloan.png';
-import polkadotLogo from 'src/assets/polkadot-logo-small-inverted.png';
+import selendraLogo from 'src/assets/polkadot-logo-small-inverted.png';
 
 interface Props {
 	className?: string
-	network: 'polkadot' | 'kusama'
+	network: 'selendra' | 'kusama'
 }
 
 const ParachainInfoCard = ({ className, network }: Props) => {
-	const polkadotMetrics = {
-		auction: '14th',
-		crowdloans: '5',
-		parachains: '14',
-		projects: '23'
+	const selendraMetrics = {
+		parachains: '1',
+		projects: '1'
 	};
 
 	const kusamaMetrics = {
-		auction: '31st',
 		crowdloans: '5',
 		parachains: '29',
 		projects: '23'
 	};
 
-	const metrics = network=='polkadot' ? polkadotMetrics : kusamaMetrics;
+	const metrics = network=='selendra' ? selendraMetrics : kusamaMetrics;
 
 	return (
 		<div className={className}>
 			<div className="bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className='parachain-card-header'>
-					<img src={network=='polkadot' ? polkadotLogo : kusamaLogo} alt="Chain Logo" />
+					<img src={network=='selendra' ? selendraLogo : kusamaLogo} alt="Chain Logo" />
 					<span className='network-name text-sidebarBlue'>{network}</span>
 				</div>
-				<div className='parachain-card-meta text-sidebarBlue opacity-90'>
-					{network == 'polkadot' ? '11%' : '31%' } of Total Supply Locked<span className='hidden-sm'> in Parachains and Crowdloans</span>
-				</div>
-
 				<div className="mt-3 text-sidebarBlue font-medium">
 					<span> <span className='text-navBlue'></span>
 					</span>
 				</div>
 				<Divider className='my-3' />
 				<div className='parachain-card-desc'>
-					{/* Auction */}
-					<div className='metric-container'>
-						<div className='metric-line'>
-							<img src={auctionIcon} alt="Auction Icon" />
-							<span className='metric-num text-sidebarBlue'>{metrics.auction}</span>
-						</div>
-						<div className='metric-name text-navBlue'>Auction</div>
-					</div>
-
-					{/* Crowdloans */}
-					<div className='metric-container'>
-						<div className='metric-line'>
-							<img src={crowdloansIcon} alt="Crowdloans Icon" />
-							<span className='metric-num text-sidebarBlue'>{metrics.crowdloans}</span>
-						</div>
-						<div className='metric-name text-navBlue'>Crowdloans</div>
-					</div>
 
 					{/* Parachains */}
 					<div className='metric-container'>

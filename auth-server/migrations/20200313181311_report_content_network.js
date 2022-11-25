@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 exports.up = function(knex) {
 	return knex.schema.table('content_report', (table) => {
-		table.enu('network', ['kusama', 'polkadot']).defaultTo('kusama');
+		table.enu('network', ['kumandra', 'selendra']).defaultTo('selendra');
 	});
 };
 

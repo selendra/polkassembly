@@ -22,7 +22,7 @@ What information do we collect?
 ## We collect and process the following information:
 
 - **Information you provide to us**.
-  -_Account and account preferences information._ We collect the information you provide when registering for the Forum including your username, name, email and password, profile information, including preferences and settings, e.g. subscription to a topic or post.  Where you choose to link your on-chain identity with your Polkassembly account, we will also store your verified Kusama / Polkadot address.
+  -_Account and account preferences information._ We collect the information you provide when registering for the Forum including your username, name, email and password, profile information, including preferences and settings, e.g. subscription to a topic or post.  Where you choose to link your on-chain identity with your Polkassembly account, we will also store your verified Kumandra / Selendra address.
   -_Post information_; information provided in your forum comments and posts, including drafts, as well as interaction with content on the forum and between users. This may also include any direct messaging to other users;
   -_Support_: We collect information when you interact with us, such as to provide us with feedback or, contact us for user support. This may include name, email, the date, time and reason for contacting us, transcripts of any conversations, and if you call us, your phone number and call recordings.
   - We store your marketing preferences, including any consent you have given us.

@@ -683,7 +683,7 @@ tables:
             _eq: X-Hasura-User-Id
         - onchain_link:
             proposer_address:
-              _in: X-Hasura-Kusama
+              _in: X-Hasura-Kumandra
       check: null
 remote_schemas:
 - name: auth

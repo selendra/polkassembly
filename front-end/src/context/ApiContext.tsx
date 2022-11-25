@@ -20,7 +20,7 @@ export interface ApiContextProviderProps {
 	children?: React.ReactElement;
 }
 
-const WS_PROVIDER = process.env.REACT_APP_WS_PROVIDER || 'wss://kusama-rpc.polkadot.io';
+const WS_PROVIDER = process.env.REACT_APP_WS_PROVIDER || 'wss://rpc1.selendra.org';
 
 export function ApiContextProvider(
 	props: ApiContextProviderProps

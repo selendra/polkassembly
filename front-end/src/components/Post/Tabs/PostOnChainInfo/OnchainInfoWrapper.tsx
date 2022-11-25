@@ -93,7 +93,6 @@ export default styled(OnchainInfoWrapper)`
 		max-width: 100%;
 		overflow-x: auto;
 		background: #FFF !important;
-		border-bottom: 1px solid rgb(238,238,238);
 	}
 
 	.react-json-view {

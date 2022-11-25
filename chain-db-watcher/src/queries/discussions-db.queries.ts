@@ -367,24 +367,6 @@ export const addReferendumIdToMotionMutation = gql`
     }
 `;
 
-export const updateTreasuryProposalWithReferendumV2Mutation = gql`
-    mutation updateTreasuryProposalWithReferendumV2Mutation($treasuryProposalId: Int!, $referendumId: Int!, $status: String!, $track: Int!, $origin: String!) {
-        update_onchain_links(
-            where: {
-                onchain_treasury_proposal_id: {_eq: $treasuryProposalId}
-            },
-            _set: {
-                onchain_referendumv2_id: $referendumId,
-                onchain_referendumv2_status: $status,
-                track: $track,
-                origin: $origin
-            }
-        ) {
-            affected_rows
-        }
-    }
-`;
-
 export const loginMutation = gql`
     mutation loginMutation($password: String!, $username: String!) {
         login(password: $password, username: $username) {

@@ -1,0 +1,52 @@
+version: '3.6'
+services:
+  # Database
+  postgres:
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - ./multiple-databases:/docker-entrypoint-initdb.d
+      - ./postgres_db/db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=auth,prisma,discussion
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGPORT=${POSTGRES_PORT}
+
+  prisma:
+    image: prismagraphql/prisma:1.34
+    restart: always
+    ports:
+      - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            user: ${POSTGRES_USER}
+            password: ${POSTGRES_PASSWORD}
+            port: ${POSTGRES_PORT}
+            rawAccess: true
+            migrations: true
+
+  # Graphql-api
+  graphql-engine:
+    network_mode: "host"
+    image: hasura/graphql-engine:v1.3.0-beta.2
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/discussion
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxSTDnm2zXJ4Of9VeiyXr\nsD9H4kxFV2UFKd1UrJkv34psNEM5WZqXQUQbptNEhgqbk+i3FtKqSOqbKHwX78EG\nHrR3+1/cV/tDL3XSW+nvPyoyJZaxaI+j2r9sPKTOGEW/pm0rpNv7AWEFVHxeU/S6\nbzmi2Vx+MA7ISVFeINt39ONQKs/f5JVgnSc0UuPSfou0re8xQa1l0Bpnr9Pg6Lhs\nfpCeHy7CSWcLqmoKGgJrGtH2yRhezWuVxVxAkscC5tQwAtNcN5br2KAg1TxGbNQW\n0z+hSeV4eiZ0ZX/zVuE/kW0fpse+V05zNBV7G2BBsr/Ztz/ltri1IHZHK4J4uH+y\nIwIDAQAB\n-----END PUBLIC KEY-----\n" }'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
+      HASURA_EVENT_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}

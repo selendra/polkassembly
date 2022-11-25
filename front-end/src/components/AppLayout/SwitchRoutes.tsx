@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import React from 'react';
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { trackInfo } from 'src/global/post_trackInfo';
 import CalendarView from 'src/screens/CalendarView';
 import CouncilBoard from 'src/screens/CouncilBoard';
@@ -52,18 +52,12 @@ import { PostOrigin } from 'src/types';
 export const gov2Routes = [
 	'gov-2',
 	'track',
-	'preimages',
-	'referenda'
+	'preimages'
 ];
 
 for (const trackName of Object.keys(trackInfo)) {
 	gov2Routes.push(trackName.split(/(?=[A-Z])/).join('-').toLowerCase());
 }
-
-const RedirectToReferenda = () => {
-	const { id } = useParams();
-	return <Navigate to={`/referenda/${id}`} replace />;
-};
 
 const SwitchRoutes = () => {
 	return (
@@ -127,38 +121,83 @@ const SwitchRoutes = () => {
 
 			{/* GOV 2 Routes */}
 			<Route path="/gov-2" element={<Gov2Home />} />
+
 			<Route path="/preimages" element={<PreImages />} />
 
-			<Route path="/root" element={<TrackListing trackName={PostOrigin.ROOT} />} />
-			<Route path="/auction-admin" element={<TrackListing trackName={PostOrigin.AUCTION_ADMIN} />} />
-			<Route path="/staking-admin" element={<TrackListing trackName={PostOrigin.STAKING_ADMIN} />} />
-			<Route path="/lease-admin" element={<TrackListing trackName={PostOrigin.LEASE_ADMIN} />} />
+			<Route path="/root">
+				<Route index element={<TrackListing trackName={PostOrigin.ROOT} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.ROOT} />} />
+			</Route>
+
+			<Route path="/auction-admin">
+				<Route index element={<TrackListing trackName={PostOrigin.AUCTION_ADMIN} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.AUCTION_ADMIN} />} />
+			</Route>
+
+			<Route path="/staking-admin">
+				<Route index element={<TrackListing trackName={PostOrigin.STAKING_ADMIN} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.STAKING_ADMIN} />} />
+			</Route>
+
+			<Route path="/lease-admin">
+				<Route index element={<TrackListing trackName={PostOrigin.LEASE_ADMIN} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.LEASE_ADMIN} />} />
+			</Route>
 
 			<Route path="/general-admin">
 				<Route index element={<TrackListing trackName={PostOrigin.GENERAL_ADMIN} />} />
-				<Route path=':id' element={<RedirectToReferenda />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.GENERAL_ADMIN} />} />
 			</Route>
 
-			<Route path="/referendum-canceller" element={<TrackListing trackName={PostOrigin.REFERENDUM_CANCELLER} />} />
-			<Route path="/referendum-killer" element={<TrackListing trackName={PostOrigin.REFERENDUM_KILLER} />} />
+			<Route path="/referendum-canceller">
+				<Route index element={<TrackListing trackName={PostOrigin.REFERENDUM_CANCELLER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.REFERENDUM_CANCELLER} />} />
+			</Route>
+
+			<Route path="/referendum-killer">
+				<Route index element={<TrackListing trackName={PostOrigin.REFERENDUM_KILLER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.REFERENDUM_KILLER} />} />
+			</Route>
 
 			<Route path="/treasurer">
 				<Route index element={<TrackListing trackName={PostOrigin.TREASURER} />} />
-				<Route path=':id' element={<RedirectToReferenda />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.TREASURER} />} />
 			</Route>
 
-			<Route path="/small-tipper" element={<TrackListing trackName={PostOrigin.SMALL_TIPPER} />} />
-			<Route path="/big-tipper" element={<TrackListing trackName={PostOrigin.BIG_TIPPER} />} />
-			<Route path="/small-spender" element={<TrackListing trackName={PostOrigin.SMALL_SPENDER} />} />
-			<Route path="/medium-spender" element={<TrackListing trackName={PostOrigin.MEDIUM_SPENDER} />} />
+			<Route path="/small-tipper">
+				<Route index element={<TrackListing trackName={PostOrigin.SMALL_TIPPER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.SMALL_TIPPER} />} />
+			</Route>
+
+			<Route path="/big-tipper">
+				<Route index element={<TrackListing trackName={PostOrigin.BIG_TIPPER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.BIG_TIPPER} />} />
+			</Route>
+
+			<Route path="/small-spender">
+				<Route index element={<TrackListing trackName={PostOrigin.SMALL_SPENDER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.SMALL_SPENDER} />} />
+			</Route>
+
+			<Route path="/medium-spender">
+				<Route index element={<TrackListing trackName={PostOrigin.MEDIUM_SPENDER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.MEDIUM_SPENDER} />} />
+			</Route>
 
 			<Route path="/big-spender">
 				<Route index element={<TrackListing trackName={PostOrigin.BIG_SPENDER} />} />
-				<Route path=':id' element={<RedirectToReferenda />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.BIG_SPENDER} />} />
 			</Route>
 
-			<Route path="/whitelisted-caller" element={<TrackListing trackName={PostOrigin.WHITELISTED_CALLER} />} />
-			<Route path="/fellowship-admin" element={<TrackListing trackName={PostOrigin.FELLOWSHIP_ADMIN} />} />
+			<Route path="/whitelisted-caller">
+				<Route index element={<TrackListing trackName={PostOrigin.WHITELISTED_CALLER} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.WHITELISTED_CALLER} />} />
+			</Route>
+
+			<Route path="/fellowship-admin">
+				<Route index element={<TrackListing trackName={PostOrigin.FELLOWSHIP_ADMIN} />} />
+				<Route path=':id' element={<ReferendumV2Post trackName={PostOrigin.FELLOWSHIP_ADMIN} />} />
+			</Route>
 
 			<Route path='/referenda/:id' element={<ReferendumV2Post />} />
 

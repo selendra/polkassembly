@@ -1298,61 +1298,15 @@ export const addDiscussionReferendum = async ({ preimageHash, referendumCreation
 	}
 };
 
-export const updateTreasuryProposalWithReferendumV2 = async (treasuryProposalId: number, referendumId: number, origin: string, status: string, track: number): Promise<void> => {
-	try {
-		const token = await getToken();
-
-		if (!token) {
-			throw new Error(
-				'No authorization token found for the chain-db-watcher.'
-			);
-		}
-		if (!discussionGraphqlUrl) {
-			throw new Error(
-				'Please specify an environment variable for the REACT_APP_SERVER_URL.'
-			);
-		}
-
-		const client = new GraphQLClient(discussionGraphqlUrl, {
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		});
-
-		const updateTreasuryProposalWithReferendumV2Variables = {
-			origin: origin,
-			referendumId: referendumId,
-			status: status,
-			track: track,
-			treasuryProposalId: treasuryProposalId
-		};
-
-		const discussionSdk = getDiscussionSdk(client);
-		const data = await discussionSdk.updateTreasuryProposalWithReferendumV2Mutation(updateTreasuryProposalWithReferendumV2Variables);
-		const addedId = data?.update_onchain_links?.affected_rows;
-
-		if (addedId) {
-			console.log(`${chalk.green('✔︎')} ReferendumV2 ${referendumId} added to the database.`);
-		}
-	} catch (err) {
-		console.error(chalk.red(`update Treasury Proposal with Referendum failed, ReferendumV2 id ${referendumId}\n`), err);
-		err.response?.errors &&
-			console.error(chalk.red('GraphQL response errors\n'), err.response.errors);
-		err.response?.data &&
-			console.error(chalk.red('Response data if available\n'), err.response.data);
-	}
-};
-
 interface AddDiscussionReferendumV2 {
 	origin: string;
 	proposer: string;
 	referendumId: number;
 	status: string;
 	trackNumber: number;
-	preimageArguments?: any;
 }
 
-export const addDiscussionReferendumV2 = async ({ origin, proposer, referendumId, status, trackNumber }: AddDiscussionReferendumV2): Promise<void> => {
+export const addDiscussionPostAndReferendumV2 = async ({ trackNumber, origin, status, referendumId, proposer }: AddDiscussionReferendumV2): Promise<void> => {
 	if (!treasuryTopicId) {
 		throw new Error(
 			'Please specify an environment variable for the TREASURY_TOPIC_ID.'
@@ -1415,44 +1369,11 @@ export const addDiscussionReferendumV2 = async ({ origin, proposer, referendumId
 			console.log(`${chalk.green('✔︎')} ReferendumV2 ${referendumId} added to the database.`);
 		}
 	} catch (err) {
-		console.error(chalk.red(`update Treasury Proposal with referendumV2 failed ${referendumId}\n`), err);
+		console.error(chalk.red(`addPostAndBounty execution error, ReferendumV2 id ${referendumId}\n`), err);
 		err.response?.errors &&
 			console.error(chalk.red('GraphQL response errors\n'), err.response.errors);
 		err.response?.data &&
 			console.error(chalk.red('Response data if available\n'), err.response.data);
-	}
-};
-
-export const addDiscussionPostAndReferendumV2 = async ({ trackNumber, origin, status, referendumId, proposer, preimageArguments }: AddDiscussionReferendumV2): Promise<void> => {
-	let exists = false;
-
-	if (preimageArguments) {
-		preimageArguments.forEach((argument: { name: string; value: string }) => {
-			if (argument.name === 'proposalId') {
-				exists = true;
-			}
-		});
-	}
-
-	if (exists) {
-		const proposalId: number = preimageArguments[0].proposalId;
-		const proposalDiscussionId = await treasuryProposalDiscussionExists(proposalId);
-		if (proposalDiscussionId) {
-			await updateTreasuryProposalWithReferendumV2(
-				proposalId,
-				Number(referendumId),
-				origin,
-				status,
-				Number(trackNumber)
-			);
-		} else {
-			await addDiscussionReferendumV2({ origin, proposer, referendumId, status, trackNumber });
-			console.error(chalk.red(
-				`✖︎ Proposal id ${proposalId.toString()} related to referendum id ${referendumId} does not exist in the discussion db, or onchain_referendum_id is not null.`
-			));
-		}
-	} else {
-		await addDiscussionReferendumV2({ origin, proposer, referendumId, status, trackNumber });
 	}
 };
 

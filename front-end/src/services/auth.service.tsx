@@ -60,14 +60,9 @@ export const handleTokenChange = (token: string, currentUser: UserDetailsContext
 				let addresses = '';
 				let defaultAddress = '';
 
-				if (NETWORK === network.KUSAMA) {
-					addresses = claims['x-hasura-kusama'];
-					defaultAddress = claims['x-hasura-kusama-default'];
-				}
-
-				if (NETWORK === network.POLKADOT) {
-					addresses = claims['x-hasura-polkadot'];
-					defaultAddress = claims['x-hasura-polkadot-default'];
+				if (NETWORK === network.SELENDRA) {
+					addresses = claims['x-hasura-selendra'];
+					defaultAddress = claims['x-hasura-selendra-default'];
 				}
 				const allowed_roles = claims['x-hasura-allowed-roles'];
 

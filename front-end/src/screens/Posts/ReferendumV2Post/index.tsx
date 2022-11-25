@@ -15,7 +15,7 @@ interface Props {
 	trackName?: string;
 }
 
-const ReferendumV2Post = ({ councilBoardSidebar=false, postID }: Props) => {
+const ReferendumV2Post = ({ councilBoardSidebar=false, postID, trackName }: Props) => {
 	const { id } = useParams();
 	const idNumber = Number(id) || Number(postID) || 0;
 
@@ -31,8 +31,6 @@ const ReferendumV2Post = ({ councilBoardSidebar=false, postID }: Props) => {
 	}, [called]);
 
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
-
-	const trackName = data?.posts[0].onchain_link?.origin || '';
 
 	if (data) return (<div>
 		{trackName && !councilBoardSidebar && <BackToListingView trackName={trackName} />}

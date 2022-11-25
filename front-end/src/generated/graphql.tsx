@@ -15339,8 +15339,8 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   email_verified?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  kusama_default_address?: Maybe<Scalars['String']>;
-  polkadot_default_address?: Maybe<Scalars['String']>;
+  kumandra_default_address?: Maybe<Scalars['String']>;
+  selendra_default_address?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   web3signup?: Maybe<Scalars['Boolean']>;
 };
@@ -29373,7 +29373,7 @@ export type PollVotesFieldsFragment = (
   & Pick<Poll_Votes, 'id' | 'vote' | 'created_at' | 'updated_at'>
   & { voter?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'username' | 'kusama_default_address' | 'polkadot_default_address'>
+    & Pick<User, 'id' | 'username' | 'kumandra_default_address' | 'selendra_default_address'>
   )> }
 );
 
@@ -30206,7 +30206,7 @@ export type UserWithUsernameQuery = (
 
 export type AuthorFieldsFragment = (
   { __typename?: 'User' }
-  & Pick<User, 'id' | 'kusama_default_address' | 'polkadot_default_address' | 'username'>
+  & Pick<User, 'id' | 'kumandra_default_address' | 'selendra_default_address' | 'username'>
 );
 
 export type ReplyFieldsFragment = (
@@ -32634,7 +32634,7 @@ export type ProfileQuery = (
   { __typename?: 'query_root' }
   & { profile?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'username' | 'kusama_default_address' | 'polkadot_default_address'>
+    & Pick<User, 'id' | 'username' | 'kumandra_default_address' | 'selendra_default_address'>
   )> }
 );
 
@@ -32688,8 +32688,8 @@ export const PollVotesFieldsFragmentDoc = gql`
   voter {
     id
     username
-    kusama_default_address
-    polkadot_default_address
+    kumandra_default_address
+    selendra_default_address
   }
   vote
   created_at
@@ -32723,8 +32723,8 @@ export const CommentReactionFieldsFragmentDoc = gql`
 export const AuthorFieldsFragmentDoc = gql`
     fragment authorFields on User {
   id
-  kusama_default_address
-  polkadot_default_address
+  kumandra_default_address
+  selendra_default_address
   username
 }
     `;
@@ -39515,8 +39515,8 @@ export const ProfileDocument = gql`
   profile(username: $username) {
     id
     username
-    kusama_default_address
-    polkadot_default_address
+    kumandra_default_address
+    selendra_default_address
   }
 }
     `;

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import blockToTime from '../blockToTime';
 
-jest.mock('../getNetwork', () => jest.fn(() => {return 'polkadot';}));
+jest.mock('../getNetwork', () => jest.fn(() => {return 'selendra';}));
 const getNetwork = require('../getNetwork');
 
 const SEC = 1000;
@@ -23,13 +23,13 @@ describe('Testing blockToTime', () => {
 		expect(blockToTime(115199)).toEqual('7d 23h 59m');
 	});
 
-	it('with Polkadot default blocktime (blocks equaling 1m to return 1m)', () => {
-		getNetwork.mockImplementation(() => 'polkadot');
+	it('with Selendra default blocktime (blocks equaling 1m to return 1m)', () => {
+		getNetwork.mockImplementation(() => 'selendra');
 		expect(blockToTime(10)).toEqual('0d 0h 1m');
 	});
 
-	it('with Polkadot default blocktime (blocks equaling 7d 23h 59m to return 7d 23h 59m)', () => {
-		getNetwork.mockImplementation(() => 'polkadot');
+	it('with Selendra default blocktime (blocks equaling 7d 23h 59m to return 7d 23h 59m)', () => {
+		getNetwork.mockImplementation(() => 'selendra');
 		expect(blockToTime(115199)).toEqual('7d 23h 59m');
 	});
 });

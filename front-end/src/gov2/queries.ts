@@ -264,33 +264,3 @@ export const TRACK_INFO = gql`
         }
     }
 `;
-
-export const PREIMAGESV2 = gql`
-    query GetPreimagesV2{
-        preimageV2s {
-            author
-            depositAmount
-            enactmentPeriod
-            hash
-            id
-            length
-            metaDescription
-            method
-            origin
-            preimageArguments {
-            id
-            name
-            value
-            }
-            preimageStatus {
-                id
-                status
-                blockNumber {
-                    number
-                    id
-                }
-            }
-            section
-        }
-    }
-`;

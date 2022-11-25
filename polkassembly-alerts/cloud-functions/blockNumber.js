@@ -8,7 +8,7 @@ import { ApiPromise, WsProvider } from '@polkadot/api'
 const { ApolloClient } = apolloClient
 const provider = new WsProvider(ARCHIVE_NODE_ENDPOINT);
 const url = process.env.HASURA_GRAPHQL_URL || 'https://kusama.polkassembly.io/v1/graphql'
-const ARCHIVE_NODE_ENDPOINT = process.env.WS_PROVIDER || 'wss://kusama-rpc.polkadot.io'
+const ARCHIVE_NODE_ENDPOINT = process.env.WS_PROVIDER || 'wss://rpc1.selendra.org'
 
 const httpLink = createHttpLink({
   uri: url,

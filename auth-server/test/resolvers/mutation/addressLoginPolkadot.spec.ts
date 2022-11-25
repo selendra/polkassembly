@@ -17,13 +17,13 @@ import { redisSetex } from '../../../src/redis';
 import { ADDRESS_LOGIN_TTL, getAddressLoginKey } from '../../../src/services/auth';
 import { getNewUserCtx } from '../../helpers';
 
-describe('addressLogin mutation on Polkadot', () => {
+describe('addressLogin mutation on Selendra', () => {
 	let signupUserId = -1;
 	let fakectx: Context;
 	const email = 'test@email.com';
 	const password = 'testpass';
 	const username = 'testuser';
-	const network = NetworkEnum.POLKADOT;
+	const network = NetworkEnum.SELENDRA;
 	const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; //Alice
 	const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
 	const signature = '0x3663c24913e237f802e8388c2fda457528b4d311e701676c45dddc4c47ce355f46d89b34976a1948e851fadd0e31c238382a85d5fe86b6a6fea9893a5e35ea89';

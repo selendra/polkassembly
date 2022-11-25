@@ -32,7 +32,7 @@ import TitleForm from '../TitleForm';
 
 const currentNetwork = getNetwork();
 
-const minimumBond = chainProperties[currentNetwork].tokenSymbol === 'DOT' ? '100.0000 DOT' : '66.66 mKSM';
+const minimumBond = chainProperties[currentNetwork].tokenSymbol === 'SEL' ? '100.0000 SEL' : '66.66 mKSM';
 
 interface Props {
 	className?: string

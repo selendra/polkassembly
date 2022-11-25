@@ -28,7 +28,7 @@ describe('addressSignup mutation on Kusama', () => {
 			cookie: () => {}
 		}
 	} as any;
-	const network = NetworkEnum.KUSAMA;
+	const network = NetworkEnum.KUMANDRA;
 	const address = 'HNZata7iMYWmk5RvZRTiAsSDhV8366zq2YGb3tLH5Upf74F'; //Alice
 	const signMessage = 'da194645-4daf-43b6-b023-6c6ce99ee709';
 	const signature = '0x048ffa02dd58557ab7f7ffb316ac75fa942d2bdb83f4480a6698a1f39d6fa1184dd85d95480bfab59f516de578b102a2b01b81ca0e69134f90e0cd08ada7ca88';
@@ -64,7 +64,7 @@ describe('addressSignup mutation on Kusama', () => {
 
 		const token: any = jwt.decode(result.token);
 
-		expect(token['https://hasura.io/jwt/claims']['x-hasura-kusama-default']).to.equals(address);
+		expect(token['https://hasura.io/jwt/claims']['x-hasura-kumandra-default']).to.equals(address);
 		expect(token['https://hasura.io/jwt/claims']['x-hasura-user-id']).to.equals(token.sub);
 
 		const dbuser = await User
@@ -100,7 +100,7 @@ describe('addressSignup mutation on Kusama', () => {
 		const token: any = jwt.decode(result.token);
 
 		loginResultUserId = Number(token.sub);
-		expect(token['https://hasura.io/jwt/claims']['x-hasura-kusama-default']).to.equals(address);
+		expect(token['https://hasura.io/jwt/claims']['x-hasura-kumandra-default']).to.equals(address);
 		expect(token['https://hasura.io/jwt/claims']['x-hasura-user-id']).to.equals(token.sub);
 	});
 

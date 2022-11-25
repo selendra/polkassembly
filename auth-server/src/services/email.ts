@@ -11,9 +11,7 @@ import User from '../model/User';
 import { CommentCreationHookDataType, PostType, PostTypeEnum } from '../types';
 import {
 	commentMentionEmailTemplate,
-	newGovernanceV2CreatedEmailTemplate,
 	newProposalCreatedEmailTemplate,
-	ownGovernanceV2ReferendaCreatedEmailTemplate,
 	ownProposalCreatedEmailTemplate,
 	postSubscriptionMailTemplate,
 	reportContentEmailTemplate,
@@ -26,8 +24,8 @@ import {
 import shortenHash from '../utils/shortenHash';
 
 const apiKey = process.env.SENDGRID_API_KEY;
-const FROM = 'noreply@polkassembly.io';
-const REPORT = 'contact@premiurly.in';
+const FROM = "nath.home.user@gmail.com";
+const REPORT = "nath.home.user@gmail.com";
 const DOMAIN = process.env.DOMAIN_NAME && process.env.DOMAIN_PROTOCOL ? `${process.env.DOMAIN_PROTOCOL}${process.env.DOMAIN_NAME}` : 'https://test.polkassembly.io';
 
 if (apiKey) {
@@ -172,7 +170,7 @@ export const sendOwnProposalCreatedEmail = (user: User, type: PostType, url: str
 		return;
 	}
 
-	const text = ejs.render(type === PostTypeEnum.REFERENDA ? ownGovernanceV2ReferendaCreatedEmailTemplate : ownProposalCreatedEmailTemplate, {
+	const text = ejs.render(ownProposalCreatedEmailTemplate, {
 		domain: DOMAIN,
 		postUrl: url,
 		type,
@@ -205,7 +203,7 @@ export const sendNewProposalCreatedEmail = (user: User, type: PostType, url: str
 		return;
 	}
 
-	const text = ejs.render(type === PostTypeEnum.REFERENDA ? newGovernanceV2CreatedEmailTemplate : newProposalCreatedEmailTemplate, {
+	const text = ejs.render(newProposalCreatedEmailTemplate, {
 		domain: DOMAIN,
 		postUrl: url,
 		type,

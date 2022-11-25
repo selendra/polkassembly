@@ -123,8 +123,8 @@ const Delete: FC<{className?: string}> = ({ className }) => {
 							<Option value="I use another platform for my governance needs">
                                 I use another platform for my governance needs
 							</Option>
-							<Option value="I do not hold any DOT and would not be using Polkassembly anymore">
-                                I do not hold any DOT and would not be using Polkassembly.
+							<Option value="I do not hold any SEL and would not be using Polkassembly anymore">
+                                I do not hold any SEL and would not be using Polkassembly.
 							</Option>
 							<Option value="I have a duplicate account">
                                 I have a duplicate account

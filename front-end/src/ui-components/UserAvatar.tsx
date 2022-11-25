@@ -34,7 +34,7 @@ const UserAvatar = ({ className, id, username, size }: Props) => {
 
 	return (
 		userProfileData?.image ? <Avatar className={className} src={userProfileData?.image} size={size} />
-			: <Avatar className={`${className} bg-gray-300`} size={size} shape='circle'>{username?.substring(0, 1).toUpperCase()}</Avatar>
+			: <Avatar className={`${className} bg-gray-300`} size={size} shape='circle'>{username?.substring(0, 1)}</Avatar>
 	);
 };
 

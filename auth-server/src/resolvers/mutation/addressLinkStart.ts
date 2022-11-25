@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ForbiddenError } from 'apollo-server';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import Address from '../../model/Address';
 import AuthService from '../../services/auth';

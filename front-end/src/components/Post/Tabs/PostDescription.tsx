@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import PASmallCirclePNG from 'src/assets/pa-small-circle.png';
-import { DiscussionPostFragment, Exact, MotionPostFragment,ProposalPostFragment, ReferendumPostFragment,  TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { CommentFieldsFragment, DiscussionPostFragment, Exact, MotionPostFragment,ProposalPostFragment, ReferendumPostFragment,  TreasuryProposalPostFragment } from 'src/generated/graphql';
 import { useCurrentBlock } from 'src/hooks';
 import Markdown from 'src/ui-components/Markdown';
 import blockToTime from 'src/util/blockToTime';
@@ -62,6 +62,13 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 	const currentBlock = useCurrentBlock();
 
 	const [timeline, setTimeline] = useState(0);
+	const [comments, setComments] = useState<CommentFieldsFragment[]>([]);
+	useEffect(() => {
+		setComments(post?.comments?.filter((_, index) => {
+			return index < 8;
+		}));
+	}, [post?.comments]);
+
 	const [timelines, setTimelines] = useState<ITimeline[]>([]);
 
 	useEffect(() => {
@@ -110,7 +117,6 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 				});
 			}
 			const newTimelines = timelines.sort((a, b) => b.date.diff(a.date));
-
 			if (newTimelines.length > 0) {
 				if (newTimelines[0].date.isAfter(moment().subtract(1, 'days'))) {
 					newTimelines[0].isToday = true;
@@ -127,11 +133,6 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 			setTimelines(newTimelines);
 		}
 	}, [onchain_link, currentBlock]);
-
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const handleTimelineClick = ({ id, isToday } : {id: number,  isToday: boolean | undefined}) => {
-		setTimeline(id);
-	};
 
 	return (
 		<div className={`${className} mt-4`}>
@@ -154,45 +155,70 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 
 			{!isEditing && <div className='flex xl:hidden mb-8 mx-2'><Sidebar /></div>}
 
-			<div className='block xl:grid grid-cols-12'>
+			<div className='flex relative'>
 				{
 					onchain_link && !!post.comments?.length && currentBlock && timelines.length > 0 &&
-					<div className='h-screen hidden xl:block col-start-1 col-end-2 min-w-[100px] -ml-4 sticky top-[10%] pt-10'>
+					<div style={{
+						height: `${window.innerHeight}px`
+					}} className='hidden xl:flex mr-4 min-w-[100px] -ml-4 sticky top-[10%] pt-10 xl:items-center'>
 						<Timeline className='flex flex-col h-full w-full' mode='right'>
 							{timelines.map(({ date, id, isToday, status }) => {
-								return (
-									<Timeline.Item
-										className='h-full'
-										dot={timeline === id && <img style={ { maxWidth:'20px' } } src={PASmallCirclePNG} />}
-										color={`${timeline === id? '#334D6E':'#90A0B7'}`} key={id}
-									>
-										<button onClick={() => handleTimelineClick({ id, isToday })} className={`text-xs flex flex-col border-none outline-none items-end w-full ${timeline === id? 'text-sidebarBlue':'text-navBlue'}`}>
-											{
-												isToday
-													? <span>Today</span>
-													: <>
-														<span>{date.format('MMM Do')}</span>
-														<span className='text-right'>{status}</span>
-													</>
-											}
-										</button>
-									</Timeline.Item>);
+								return (<Timeline.Item style={{
+									height: '100%'
+								}} dot={timeline === id && <img style={ { maxWidth:'20px' } } src={PASmallCirclePNG} />} color={`${timeline === id? '#334D6E':'#90A0B7'}`} key={id}>
+									<button onClick={() => {
+										setTimeline(id);
+										setComments(
+											isToday
+												?post?.comments?.filter((_, index) => {
+													return index < 8;
+												})
+												:comments.filter((comment) => {
+													const commentDate = moment(comment?.updated_at);
+													const index = timelines.findIndex((v) => (v.id === id));
+													if (index === timelines.length - 1) {
+														return commentDate.isSameOrBefore(timelines[index].date);
+													} else {
+														return commentDate.isSameOrBefore(timelines[index].date) && commentDate.isAfter(timelines[index + 1].date);
+													}
+												}));
+									}} className={`text-xs flex flex-col border-none outline-none items-end w-full ${timeline === id? 'text-sidebarBlue':'text-navBlue'}`}>
+										{
+											isToday
+												?<span>Today</span>
+												:<>
+													<span>{date.format('MMM Do')}</span>
+													<span className='text-right'>{status}</span>
+												</>
+										}
+									</button>
+								</Timeline.Item>);
 							})}
 						</Timeline>
 					</div>
 				}
 
-				<div className='col-start-1 xl:col-start-3 col-end-13'>
-					<div className='text-sidebarBlue text-sm font-medium mb-5'>{post.comments.length} comments</div>
-					{ !!post.comments?.length &&
+				<div className='w-full'>
+					<div className='text-sidebarBlue text-sm font-medium mb-5'>{comments.length} comments</div>
+					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
+
+					{ !!comments?.length &&
 						<>
 							<Comments
-								comments={post.comments}
+								className='ml-0 xl:ml-4 xl:max-w-[490px] 2xl:max-w-[100%]'
+								comments={comments}
 								refetch={refetch}
 							/>
+							{post?.comments.length > 8 ?<div>
+								<Button
+									className='border-none outline-none bg-transparent shadow-none text-sm font-medium text-sidebarBlue'
+									onClick={() => setComments(post?.comments)}
+								>
+									Load {post?.comments.length - comments.length} older comments
+								</Button>
+							</div>: null}
 						</>
 					}
-					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
 				</div>
 			</div>
 

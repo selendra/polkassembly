@@ -1,0 +1,170 @@
+version: '3.6'
+services:
+  # Blockchain archive node
+  substrate-node:
+    image: substrate-node
+    hostname: substrate-node
+    build:
+      context: ./substrate-node
+      args:
+        SELENDRA_VERSION: 0.2.1
+    volumes:
+      - "./substrate-data:/data"
+    ports:
+      - "30333:30333"
+      - "9933:9933"
+      - "9944:9944"
+    command: -d /data --ws-max-out-buffer-capacity 256 --unsafe-ws-external --unsafe-rpc-external --rpc-cors all --pruning archive --name "Selendra Explorer" --chain selendra --state-cache-size 8192000000 --max-runtime-instances 256 --db-cache 8192
+    restart: always
+
+  # Redis
+  redis:
+    image: redis
+    restart: always
+    hostname: redis
+    command: redis-server --requirepass redis --port 6377
+
+  # Database
+  postgres:
+    image: postgres
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - ./multiple-databases:/docker-entrypoint-initdb.d
+      - ./postgres_db/db:/var/lib/postgresql/data
+    restart: always
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=auth,prisma,discussion
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGPORT=${POSTGRES_PORT}
+
+  # Prisma
+  prisma:
+    image: prismagraphql/prisma:1.34
+    restart: always
+    ports:
+      - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            user: ${POSTGRES_USER}
+            password: ${POSTGRES_PASSWORD}
+            port: ${POSTGRES_PORT}
+            rawAccess: true
+            migrations: true
+  
+  # Node Watcher
+  node_watcher:
+    image: node-watcher
+    depends_on:
+      - "prisma"
+      - "substrate-node"
+    build:
+      context: ../node-watcher
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      PRISMA_ENDPOINT: http://prisma:4466
+      WS_NODE_ENDPOINT: ws://substrate-node:9944
+  
+  # Chaindb open-server
+  chain-db-open-server:
+    image: chain-db-open-server
+    depends_on:
+      - "prisma"
+    build:
+      context: ../chain-db-open-server
+      dockerfile: Dockerfile
+    ports:
+      - '4000:4000'
+    restart: always
+    environment:
+      PRISMA_ENDPOINT: http://prisma:4466
+
+  # Auth: JWT Authentication server for generating a JWT to use in the Authentication
+  auth-server:
+    image: selendra-governace-auth
+    build:
+      context: ../auth-server
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - "redis"
+      - "postgres"
+    ports:
+      - "8010:8010"
+    environment:
+      REDIS_URL: "redis://:redis@redis:6377"
+      REACT_APP_AUTH_URL: "http://localhost:8010"
+      REACT_APP_SERVER_URL: "http://localhost:8080/v1/graphql"
+      NODE_ENV: ${NODE_ENV}
+      DOMAIN_PROTOCOL: ${DOMAIN_PROTOCOL}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/auth
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      SENDGRID_FROM: ${SENDGRID_FROM}]
+      SENDGRID_REPORT: ${SENDGRID_REPORT}
+      PORT: ${PORT}
+      PROPOSAL_BOT_USER_ID: ${PROPOSAL_BOT_USER_ID}
+      EVENT_BOT_USER_ID: ${EVENT_BOT_USER_ID}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      JWT_KEY_PASSPHRASE: ${JWT_KEY_PASSPHRASE}
+      HASURA_EVENT_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      # Intentionally checking in private key for running transient docker container.
+      # This private key is only used here and nowhere else.
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+
+  # Graphql-api
+  graphql-engine:
+    network_mode: "host"
+    image: hasura/graphql-engine:v1.3.0-beta.2
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    - "auth-server"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:${POSTGRES_PORT}/discussion
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxSTDnm2zXJ4Of9VeiyXr\nsD9H4kxFV2UFKd1UrJkv34psNEM5WZqXQUQbptNEhgqbk+i3FtKqSOqbKHwX78EG\nHrR3+1/cV/tDL3XSW+nvPyoyJZaxaI+j2r9sPKTOGEW/pm0rpNv7AWEFVHxeU/S6\nbzmi2Vx+MA7ISVFeINt39ONQKs/f5JVgnSc0UuPSfou0re8xQa1l0Bpnr9Pg6Lhs\nfpCeHy7CSWcLqmoKGgJrGtH2yRhezWuVxVxAkscC5tQwAtNcN5br2KAg1TxGbNQW\n0z+hSeV4eiZ0ZX/zVuE/kW0fpse+V05zNBV7G2BBsr/Ztz/ltri1IHZHK4J4uH+y\nIwIDAQAB\n-----END PUBLIC KEY-----\n" }'
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: 'anonymous'
+      HASURA_EVENT_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      HASURA_COMMENT_CREATE_EVENT_HOOK: "http://localhost:8010/auth/event/comment/create"
+      HASURA_ONCHAIN_LINK_CREATE_HOOK: "http://localhost:8010/auth/event/onchain_link/create"
+      HASURA_AUTH_SERVER_REMOTE_SCHEMA: "http://localhost:8010/auth/graphql"
+      HASURA_CHAIN_DB_REMOTE_SCHEMA: "http://localhost:4000"
+
+  # Chain db watcher
+  chaind-db-watcher: 
+    image: chaind-db-watcher
+    build:
+      context: ../chain-db-watcher
+      dockerfile: Dockerfile
+    ports:
+    - "8019:8019"
+    depends_on:
+      - "graphql-engine"
+      - "chain-db-open-server"
+    restart: always
+    environment:
+      PROPOSAL_BOT_USERNAME: ${PROPOSAL_BOT_USERNAME}
+      PROPOSAL_BOT_PASSWORD: ${PROPOSAL_BOT_PASSWORD}
+      PROPOSAL_BOT_USER_ID: ${PROPOSAL_BOT_USER_ID}
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+      REACT_APP_HASURA_GRAPHQL_URL: "http://graphql-engine:8080/v1/graphql"
+      CHAIN_DB_GRAPHQL_URL: "http://chain-db-open-server:4000/"
+      DEMOCRACY_TOPIC_ID: 1
+      COUNCIL_TOPIC_ID: 2
+      HASURA_PROPOSAL_POST_TYPE_ID: 2
+      TECH_COMMITTEE_PROPOSAL_TOPIC_ID: 3
+      TREASURY_TOPIC_ID: 4
+      START_FROM: 0
+      HEALTH_PORT: 8019

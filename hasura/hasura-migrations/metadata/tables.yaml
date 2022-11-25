@@ -1421,10 +1421,10 @@
             _eq: X-Hasura-User-Id
         - onchain_link:
             proposer_address:
-              _in: X-Hasura-Kusama
+              _in: X-Hasura-Kumandra
         - onchain_link:
             proposer_address:
-              _in: X-Hasura-Polkadot
+              _in: X-Hasura-Selendra
       check: null
 - table:
     schema: public

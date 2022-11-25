@@ -314,8 +314,7 @@ const startSubscriptions = (client: SubscriptionClient): void => {
 					origin,
 					status: referendumStatus,
 					referendumId,
-					proposer: author || preimage?.author,
-					preimageArguments: preimage?.preimageArguments
+					proposer: author || preimage?.author
 				}).catch(e => {
 					console.error(chalk.red(e));
 				});

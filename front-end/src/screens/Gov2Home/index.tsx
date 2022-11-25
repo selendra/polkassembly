@@ -12,6 +12,8 @@ import UpcomingEvents from 'src/components/Home/UpcomingEvents';
 const Gov2Home = () => {
 	return (
 		<>
+			<h1 className='dashboard-heading'>Overview</h1>
+
 			<div className="mt-6 mx-1">
 				<AboutNetwork showGov2Links />
 			</div>

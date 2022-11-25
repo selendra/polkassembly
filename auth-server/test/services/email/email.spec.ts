@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import 'mocha';
 import { expect } from 'chai';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import rewiremock from 'rewiremock';
 import User from '../../../src/model/User';

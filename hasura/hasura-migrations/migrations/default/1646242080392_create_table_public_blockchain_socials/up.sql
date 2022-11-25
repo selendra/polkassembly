@@ -1,0 +1,1 @@
+CREATE TABLE "public"."blockchain_socials"("network" text NOT NULL, "discord" text, "reddit" text, "github" text, "twitter" text, "youtube" text, "telegram" text, "homepage" text, "block_explorer" text, "id" serial NOT NULL, PRIMARY KEY ("id") );

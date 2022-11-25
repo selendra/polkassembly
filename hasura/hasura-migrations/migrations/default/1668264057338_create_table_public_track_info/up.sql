@@ -1,0 +1,1 @@
+CREATE TABLE "public"."track_info"("id" serial NOT NULL, "track_id" integer NOT NULL, "name" text NOT NULL, "max_deciding" integer NOT NULL, "decision_deposit" text NOT NULL, "prepare_period" integer NOT NULL, "decision_period" integer NOT NULL, "confirm_period" integer NOT NULL, "min_enactment_period" integer NOT NULL, PRIMARY KEY ("id") );

@@ -61,7 +61,7 @@ const TrackListingStatusTabContent = ({ className, status, trackName } : Props) 
 
 					return !!post?.author?.username && !!post?.onchain_link?.onchain_referendumv2.length &&
 						<div key={post.id} className='my-5'>
-							{<Link to={`/referenda/${onchainId}`}>
+							{<Link to={`/${trackName.split(/(?=[A-Z])/).join('-').toLowerCase()}/${onchainId}`}>
 								<GovernanceCard
 									postReactions={(post as any)?.post_reactions}
 									address={post.onchain_link.onchain_referendumv2[0]?.submitted.who}

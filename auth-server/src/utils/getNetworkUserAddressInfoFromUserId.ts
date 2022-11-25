@@ -11,28 +11,28 @@ import getAllAddressesFromUserId from './getAllAddressesFromUserId';
 export default async (userId: number): Promise<NetworkUserAddressInfo> => {
 	const allAddresses = await getAllAddressesFromUserId(userId);
 
-	const kusamaAddressses: string[] = [];
-	const polkadotAddressses: string[] = [];
+	const kumandraAdresses: string[] = [];
+	const selendraAddressses: string[] = [];
 
-	let kusamaDefault = '';
-	let polkadotDefault = '';
+	let kumandraDefault = '';
+	let selendraDefault = '';
 
 	allAddresses.forEach(addressInfo => {
 		switch (addressInfo.network) {
-		case NetworkEnum.KUSAMA:
+		case NetworkEnum.KUMANDRA:
 			if (addressInfo.verified) {
-				kusamaAddressses.push(addressInfo.address);
+				kumandraAdresses.push(addressInfo.address);
 				if (addressInfo.default) {
-					kusamaDefault = addressInfo.address;
+					kumandraDefault = addressInfo.address;
 				}
 			}
 			break;
 
-		case NetworkEnum.POLKADOT:
+		case NetworkEnum.SELENDRA:
 			if (addressInfo.verified) {
-				polkadotAddressses.push(addressInfo.address);
+				selendraAddressses.push(addressInfo.address);
 				if (addressInfo.default) {
-					polkadotDefault = addressInfo.address;
+					selendraDefault = addressInfo.address;
 				}
 			}
 			break;
@@ -42,13 +42,13 @@ export default async (userId: number): Promise<NetworkUserAddressInfo> => {
 	});
 
 	const result = {
-		[NetworkEnum.KUSAMA]: {
-			addresses: kusamaAddressses,
-			default: kusamaDefault
+		[NetworkEnum.KUMANDRA]: {
+			addresses: kumandraAdresses,
+			default: kumandraDefault
 		},
-		[NetworkEnum.POLKADOT]: {
-			addresses: polkadotAddressses,
-			default: polkadotDefault
+		[NetworkEnum.SELENDRA]: {
+			addresses: selendraAddressses,
+			default: selendraDefault
 		}
 	} as unknown as NetworkUserAddressInfo;
 

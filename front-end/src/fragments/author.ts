@@ -7,8 +7,8 @@ import gql from 'graphql-tag';
 export const authorFields = gql`
     fragment authorFields on User {
         id
-        kusama_default_address
-        polkadot_default_address
+        kumandra_default_address
+        selendra_default_address
         username
     }
 `;

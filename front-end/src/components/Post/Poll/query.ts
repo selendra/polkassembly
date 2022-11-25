@@ -28,8 +28,8 @@ export const pollVotesFields = gql`
         voter {
             id
             username
-            kusama_default_address
-            polkadot_default_address
+            kumandra_default_address
+            selendra_default_address
         }
         vote
         created_at

@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 import { useGetTrackInfoLazyQuery } from 'src/generated/graphql';
 import { chainProperties } from 'src/global/networkConstants';
 import { trackInfo } from 'src/global/post_trackInfo';
-import { useBlockTime } from 'src/hooks';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import Loader from 'src/ui-components/Loader';
 import formatBnBalance from 'src/util/formatBnBalance';
@@ -24,10 +23,6 @@ const currentNetwork = getNetwork();
 
 const AboutTrackCard = ({ className, trackName } : Props) => {
 	const trackMetaData = trackInfo[trackName];
-
-	const { blocktime } = useBlockTime();
-
-	const blockTimeSeconds = blocktime / 1000;
 
 	const [getData, { called, data, error, loading, refetch }] = useGetTrackInfoLazyQuery({ variables: {
 		track: trackMetaData.trackId
@@ -68,9 +63,9 @@ const AboutTrackCard = ({ className, trackName } : Props) => {
 							</Row>
 							}
 
-							{data?.track_info[0].decision_deposit && <Row className='mt-3'>
-								<Col span={15} className='font-bold'>Decision Deposit:</Col>
-								<Col span={9}>{data?.track_info[0].decision_deposit && formatBnBalance(data?.track_info[0].decision_deposit, { numberAfterComma: 2, withUnit: false })}({chainProperties[currentNetwork].tokenSymbol})</Col>
+							{data?.track_info[0].decision_deposit && <Row className='mt-2'>
+								<Col span={15} className='font-bold'>Decision Deposit({chainProperties[currentNetwork].tokenSymbol}):</Col>
+								<Col span={9}>{data?.track_info[0].decision_deposit && formatBnBalance(data?.track_info[0].decision_deposit, { numberAfterComma: 2, withUnit: false })}</Col>
 							</Row>
 							}
 						</Col>
@@ -78,24 +73,24 @@ const AboutTrackCard = ({ className, trackName } : Props) => {
 						<Col xs={24} sm={24} md={12} lg={12} xl={8}>
 							{data?.track_info[0].prepare_period && <Row>
 								<Col span={15} className='font-bold'>Prepare Period:</Col>
-								<Col span={9} className='whitespace-pre'>{data?.track_info[0].prepare_period * blockTimeSeconds} sec</Col>
+								<Col span={9}>{data?.track_info[0].prepare_period}</Col>
 							</Row>}
 
-							{data?.track_info[0].confirm_period && <Row className='mt-3'>
+							{data?.track_info[0].confirm_period && <Row className='mt-2'>
 								<Col span={15} className='font-bold'>Confirm Period:</Col>
-								<Col span={9} className='whitespace-pre'>{(data?.track_info[0].confirm_period * blockTimeSeconds)/3600} hrs</Col>
+								<Col span={9}>{data?.track_info[0].confirm_period}</Col>
 							</Row>}
 						</Col>
 
 						<Col xs={24} sm={24} md={12} lg={12} xl={8}>
 							{data?.track_info[0].min_enactment_period &&<Row>
-								<Col span={19} className='font-bold'>Min Enactment Period:</Col>
-								<Col span={5} className='whitespace-pre'>{(data?.track_info[0].min_enactment_period * blockTimeSeconds)/3600} hrs</Col>
+								<Col span={15} className='font-bold'>Min Enactment Period:</Col>
+								<Col span={9}>{data?.track_info[0].min_enactment_period}</Col>
 							</Row>}
 
-							{data?.track_info[0].decision_period && <Row className='mt-3'>
-								<Col span={19} className='font-bold'>Decision Period:</Col>
-								<Col span={5} className='whitespace-pre'>{(data?.track_info[0].decision_period * blockTimeSeconds)/86400} days</Col>
+							{data?.track_info[0].decision_period && <Row className='mt-2'>
+								<Col span={15} className='font-bold'>Decision Period:</Col>
+								<Col span={9}>{data?.track_info[0].decision_period}</Col>
 							</Row>}
 						</Col>
 

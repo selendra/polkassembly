@@ -29,21 +29,16 @@ const Parachains = ({ className }: Props) => {
 		// eslint-disable-next-line sort-keys
 		{ label: `All (${parachainsData?.length})`, key: 'all', children: <ChainDataTable data={parachainsData} chain='all' /> },
 		// eslint-disable-next-line sort-keys
-		{ label: `Polkadot (${parachainsData?.filter((item : any) => item?.chain === 'polkadot').length})`, key: 'polkadot', children: <ChainDataTable data={parachainsData} chain='polkadot' /> },
-		// eslint-disable-next-line sort-keys
-		{ label: `Kusama (${parachainsData?.filter((item : any) => item?.chain === 'kusama').length})`, key: 'kusama', children: <ChainDataTable data={parachainsData} chain='kusama' /> }
+		{ label: `Selendra (${parachainsData?.filter((item : any) => item?.chain === 'selendra').length})`, key: 'selendra', children: <ChainDataTable data={parachainsData} chain='selendra' /> }
 	];
 
 	return (
 		<div className={className}>
-			<h1 className='dashboard-heading mb-4 md:mb-6'>Polkadot and Kusama ecosystem and directory</h1>
+			<h1 className='dashboard-heading mb-4 md:mb-6'>Selendra ecosystem and directory</h1>
 
 			<Row gutter={[{ lg:16 }, 16]} className='mb-4 md:mb-6'>
 				<Col span={24} lg={{ span:12 }}>
-					<ParachainInfoCard network='polkadot' />
-				</Col>
-				<Col span={24} lg={{ span:12 }}>
-					<ParachainInfoCard network='kusama' />
+					<ParachainInfoCard network='selendra' />
 				</Col>
 			</Row>
 

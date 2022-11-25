@@ -4,15 +4,15 @@
 
 import getNetwork from './getNetwork';
 
-export default function(): 'kusama_default_address' | 'polkadot_default_address' {
+export default function(): 'kumandra_default_address' | 'selendra_default_address' {
 	const network = getNetwork();
 
 	switch (network) {
 	case 'kusama':
-		return 'kusama_default_address';
-	case 'polkadot':
-		return 'polkadot_default_address';
+		return 'kumandra_default_address';
+	case 'selendra':
+		return 'selendra_default_address';
 	default:
-		return 'polkadot_default_address';
+		return 'selendra_default_address';
 	}
 }

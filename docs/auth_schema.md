@@ -753,7 +753,7 @@
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>kusama_default_address</strong></td>
+<td colspan="2" valign="top"><strong>kumandra_default_address</strong></td>
 <td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>
@@ -773,7 +773,7 @@
 <td></td>
 </tr>
 <tr>
-<td colspan="2" valign="top"><strong>polkadot_default_address</strong></td>
+<td colspan="2" valign="top"><strong>selendra_default_address</strong></td>
 <td valign="top"><a href="#string">String</a></td>
 <td></td>
 </tr>

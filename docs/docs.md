@@ -1,6 +1,6 @@
 # Polkassembly documentation
 
-Polkassembly is a platform for anyone to discover and participate in Polkadot https://polkadot.polkassembly.io and Kusama https://kusama.polkassembly.io governance. You can browse proposals made on chain, discuss with the community and vote directly from the website using a browser extension. Proposal authors are the only one able to edit the proposal post and description. You don't have to, but adding an email may help to recover your account, also you can get notifications for discussions of interest or when a new proposal appears on-chain. A presentation on polkassembly can be seen here https://github.com/Premiurly/polkassembly/blob/master/docs/Polkassembly%20Governance%20Platform.pptx
+Polkassembly is a platform for anyone to discover and participate in Selendra https://selendra.polkassembly.io and  https://.polkassembly.io governance. You can browse proposals made on chain, discuss with the community and vote directly from the website using a browser extension. Proposal authors are the only one able to edit the proposal post and description. You don't have to, but adding an email may help to recover your account, also you can get notifications for discussions of interest or when a new proposal appears on-chain. A presentation on polkassembly can be seen here https://github.com/Premiurly/polkassembly/blob/master/docs/Polkassembly%20Governance%20Platform.pptx
 
 ## Architecture
 
@@ -57,4 +57,4 @@ chain-db-watcher is a application monitoring node-watcher prisma server for onch
  
 You can check the api docs [here](auth_schema.md) and [here](schema.md).
 
-To checkout api intereactively with graphiql tools got to https://lucasconstantino.github.io/graphiql-online/ and change endpoint to https://kusama.polkassembly.io/v1/graphql
+To checkout api intereactively with graphiql tools got to https://lucasconstantino.github.io/graphiql-online/ and change endpoint to https://.polkassembly.io/v1/graphql

@@ -1,14 +1,14 @@
 import fetch from 'node-fetch'
 import { sendmail } from './utils.js'
 
-const networks = [process.env.POLKADOT_NETWORK, process.env.KUSAMA_NETWORK]
+const networks = [process.env.SELENDRA_NETWORK, process.env.KUSAMA_NETWORK]
 
-const ERROR_MAIL_TEXT  = "Kusama or polkadot is down please check"
+const ERROR_MAIL_TEXT  = "Kusama or selendra is down please check"
 const ERROR_MAIL_SUBJECT = "Server down"
 
 function networkCheck() {
     if (!networks) {
-        text = "Kusama or polkadot environment variable not found";
+        text = "Kusama or selendra environment variable not found";
         subject = "Environment not set";
         sendmail(text, subject);
         process.exit(0);

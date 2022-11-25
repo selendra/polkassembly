@@ -5,7 +5,7 @@
 import { expect } from 'chai';
 import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import 'mocha';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import User from '../../../src/model/User';
 import Address from '../../../src/model/Address';
@@ -14,7 +14,7 @@ import { Context, NetworkEnum } from '../../../src/types';
 import messages from '../../../src/utils/messages';
 import { getNewUserCtx } from '../../helpers';
 
-describe('addressLinkStart mutation on Polkadot', () => {
+describe('addressLinkStart mutation on Selendra', () => {
 	let signupUserId = -1;
 	let fakectx: Context;
 	let dbAddressId: any;
@@ -40,8 +40,8 @@ describe('addressLinkStart mutation on Polkadot', () => {
 			.del();
 	});
 
-	it('should be able to start linking address on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
+	it('should be able to start linking address on Selendra', async () => {
+		const network = NetworkEnum.SELENDRA;
 		const address = '14Gjs1TD93gnwEBfDMHoCgsuf1s2TVKUP6Z1qKmAZnZ8cW5q'; // Charlie
 		const res = await addressLinkStart(undefined, { network, address }, fakectx);
 
@@ -62,8 +62,8 @@ describe('addressLinkStart mutation on Polkadot', () => {
 		dbAddressId = dbAddress?.id;
 	});
 
-	it('should not be able to start linking address if it already exists in db on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
+	it('should not be able to start linking address if it already exists in db on Selendra', async () => {
+		const network = NetworkEnum.SELENDRA;
 		const address = '14E5nqKAp3oAJcmzgZhUD2RcptBeUBScxKHgJKU4HPNcKVf3'; // Bob
 		const dbAddress = await Address
 			.query()
@@ -90,8 +90,8 @@ describe('addressLinkStart mutation on Polkadot', () => {
 			.del();
 	});
 
-	it('should not be able to start linking address with wrong jwt on Polkadot', async () => {
-		const network = NetworkEnum.POLKADOT;
+	it('should not be able to start linking address with wrong jwt on Selendra', async () => {
+		const network = NetworkEnum.SELENDRA;
 		const address = '15oF4uVJwmo4TdGW7VfQxNLavjCXviqxT9S1MgbjMNHr6Sp5'; // Alice
 		fakectx.req.headers.authorization = 'Bearer wrong';
 		try {

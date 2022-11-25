@@ -48,7 +48,7 @@ export default (type: PostType, onchainLink: OnchainLinkType): number | string =
 	case PostTypeEnum.CHILD_BOUNTY:
 		id = onchain_child_bounty_id;
 		break;
-	case PostTypeEnum.REFERENDA:
+	case PostTypeEnum.REFERENDUM_V2:
 		id = onchain_referendumv2_id;
 		break;
 	default:

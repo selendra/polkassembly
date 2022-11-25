@@ -5,7 +5,7 @@ import apolloClient from "apollo-client";
 const { ApolloClient } = apolloClient;
 import { sendmail, fetchLatestDiscussionsQuery } from "./utils.js";
 
-const networks = [process.env.POLKADOT_NETWORK, process.env.KUSAMA_NETWORK]
+const networks = [process.env.SELENDRA_NETWORK, process.env.KUSAMA_NETWORK]
 
 let data_subject = "Error while fetching data";
 let data_title =
@@ -27,7 +27,7 @@ function client(endpoint) {
 
 function networkCheck() {
   if (!networks) {
-    text = "Kusama or polkadot environment variable not found";
+    text = "Kusama or selendra environment variable not found";
     subject = "Environment not set";
     sendmail(text, subject);
     process.exit(0);

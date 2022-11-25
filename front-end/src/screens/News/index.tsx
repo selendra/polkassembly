@@ -5,21 +5,21 @@
 import React, { FC } from 'react';
 import { TwitterTimelineEmbed } from 'react-twitter-embed';
 import kusamaLogo from 'src/assets/kusama-logo.gif';
-import polkadotLogo from 'src/assets/parachain-logos/polkadot-logo.jpg';
+import selendraLogo from 'src/assets/parachain-logos/polkadot-logo.jpg';
 import { chainLinks } from 'src/global/networkConstants';
 import getNetwork from 'src/util/getNetwork';
 
 const network = getNetwork();
 
 enum Profile {
-	Polkadot='polkadot',
+	Selendra='selendra',
 	Kusama='kusamanetwork'
 }
 
 const News: FC = () => {
 	const profile = chainLinks[network].twitter.split('/')[3];
-	const isPolkadotOrKusama = profile === Profile.Kusama || profile === Profile.Polkadot;
-	const profile2 = profile === Profile.Kusama? Profile.Polkadot: Profile.Kusama;
+	const isSelendraOrKusama = profile === Profile.Kusama || profile === Profile.Selendra;
+	const profile2 = profile === Profile.Kusama? Profile.Selendra: Profile.Kusama;
 
 	const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
 
@@ -30,9 +30,9 @@ const News: FC = () => {
 			</h3>
 			<section className='mt-6 w-full flex flex-col md:flex-row gap-5'>
 				<article className='flex-1'>
-					{isPolkadotOrKusama && <div className='flex items-center mb-2'>
-						<img src={profile === Profile.Kusama? kusamaLogo : polkadotLogo} className='rounded-full' height={28} width={28} alt={`${profile === Profile.Kusama? 'Kusama': 'Polkadot'} Logo`} />
-						<h4 className='text-[18px] font-medium text-sidebarBlue ml-2'>{profile === Profile.Kusama? 'Kusama': 'Polkadot'}</h4>
+					{isSelendraOrKusama && <div className='flex items-center mb-2'>
+						<img src={profile === Profile.Kusama? kusamaLogo : selendraLogo} className='rounded-full' height={28} width={28} alt={`${profile === Profile.Kusama? 'Kusama': 'Selendra'} Logo`} />
+						<h4 className='text-[18px] font-medium text-sidebarBlue ml-2'>{profile === Profile.Kusama? 'Kusama': 'Selendra'}</h4>
 					</div>}
 					<TwitterTimelineEmbed
 						sourceType="profile"
@@ -44,10 +44,10 @@ const News: FC = () => {
 						}
 					/>
 				</article>
-				{isPolkadotOrKusama && (<article className='flex-1'>
-					{isPolkadotOrKusama && <div className='flex items-center mb-2'>
-						<img src={profile2 === Profile.Kusama? kusamaLogo : polkadotLogo} className='rounded-full' height={28} width={28} alt={`${profile2 === Profile.Kusama? 'Kusama': 'Polkadot'} Logo`} />
-						<h4 className='text-[18px] font-medium text-sidebarBlue ml-2'>{profile2 === Profile.Kusama? 'Kusama': 'Polkadot'}</h4>
+				{isSelendraOrKusama && (<article className='flex-1'>
+					{isSelendraOrKusama && <div className='flex items-center mb-2'>
+						<img src={profile2 === Profile.Kusama? kusamaLogo : selendraLogo} className='rounded-full' height={28} width={28} alt={`${profile2 === Profile.Kusama? 'Kusama': 'Selendra'} Logo`} />
+						<h4 className='text-[18px] font-medium text-sidebarBlue ml-2'>{profile2 === Profile.Kusama? 'Kusama': 'Selendra'}</h4>
 					</div>}
 					<TwitterTimelineEmbed
 						sourceType="profile"

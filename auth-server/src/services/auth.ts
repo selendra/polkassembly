@@ -8,7 +8,7 @@ import { randomBytes, timingSafeEqual } from 'crypto';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import fetch from 'node-fetch';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 import validator from 'validator';
 
 import Address from '../model/Address';
@@ -1039,10 +1039,10 @@ export default class AuthService {
 			'https://hasura.io/jwt/claims': {
 				'x-hasura-allowed-roles': allowedRoles,
 				'x-hasura-default-role': currentRole,
-				'x-hasura-kusama': `{${networkUserAddressInfo.kusama.addresses}}`,
-				'x-hasura-kusama-default': networkUserAddressInfo.kusama.default || '',
-				'x-hasura-polkadot': `{${networkUserAddressInfo.polkadot.addresses}}`,
-				'x-hasura-polkadot-default': networkUserAddressInfo.polkadot.default || '',
+				'x-hasura-kumandra': `{${networkUserAddressInfo.kumandra.addresses}}`,
+				'x-hasura-kumandra-default': networkUserAddressInfo.kumandra.default || '',
+				'x-hasura-selendra': `{${networkUserAddressInfo.selendra.addresses}}`,
+				'x-hasura-selendra-default': networkUserAddressInfo.selendra.default || '',
 				'x-hasura-user-email': email || '',
 				'x-hasura-user-id': `${id}`
 			},

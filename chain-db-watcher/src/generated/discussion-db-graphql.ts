@@ -28894,8 +28894,8 @@ export type User = {
   email?: Maybe<Scalars['String']>;
   email_verified?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  kusama_default_address?: Maybe<Scalars['String']>;
-  polkadot_default_address?: Maybe<Scalars['String']>;
+  kumandra_default_address?: Maybe<Scalars['String']>;
+  selendra_default_address?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
   web3signup?: Maybe<Scalars['Boolean']>;
 };
@@ -29430,23 +29430,6 @@ export type AddReferendumIdToMotionMutationMutation = (
   )> }
 );
 
-export type UpdateTreasuryProposalWithReferendumV2MutationMutationVariables = {
-  treasuryProposalId: Scalars['Int'];
-  referendumId: Scalars['Int'];
-  status: Scalars['String'];
-  track: Scalars['Int'];
-  origin: Scalars['String'];
-};
-
-
-export type UpdateTreasuryProposalWithReferendumV2MutationMutation = (
-  { __typename?: 'mutation_root' }
-  & { update_onchain_links?: Maybe<(
-    { __typename?: 'onchain_links_mutation_response' }
-    & Pick<Onchain_Links_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type LoginMutationMutationVariables = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -29930,13 +29913,6 @@ export const AddReferendumIdToMotionMutationDocument = gql`
   }
 }
     `;
-export const UpdateTreasuryProposalWithReferendumV2MutationDocument = gql`
-    mutation updateTreasuryProposalWithReferendumV2Mutation($treasuryProposalId: Int!, $referendumId: Int!, $status: String!, $track: Int!, $origin: String!) {
-  update_onchain_links(where: {onchain_treasury_proposal_id: {_eq: $treasuryProposalId}}, _set: {onchain_referendumv2_id: $referendumId, onchain_referendumv2_status: $status, track: $track, origin: $origin}) {
-    affected_rows
-  }
-}
-    `;
 export const LoginMutationDocument = gql`
     mutation loginMutation($password: String!, $username: String!) {
   login(password: $password, username: $username) {
@@ -30143,9 +30119,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     addReferendumIdToMotionMutation(variables: AddReferendumIdToMotionMutationMutationVariables): Promise<AddReferendumIdToMotionMutationMutation> {
       return withWrapper(() => client.request<AddReferendumIdToMotionMutationMutation>(print(AddReferendumIdToMotionMutationDocument), variables));
-    },
-    updateTreasuryProposalWithReferendumV2Mutation(variables: UpdateTreasuryProposalWithReferendumV2MutationMutationVariables): Promise<UpdateTreasuryProposalWithReferendumV2MutationMutation> {
-      return withWrapper(() => client.request<UpdateTreasuryProposalWithReferendumV2MutationMutation>(print(UpdateTreasuryProposalWithReferendumV2MutationDocument), variables));
     },
     loginMutation(variables: LoginMutationMutationVariables): Promise<LoginMutationMutation> {
       return withWrapper(() => client.request<LoginMutationMutation>(print(LoginMutationDocument), variables));

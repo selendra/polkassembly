@@ -14,7 +14,7 @@ type DropdownMenuItemType = {
 	label: any
 }
 
-const polkadotChains: DropdownMenuItemType[] = [];
+const selendraChains: DropdownMenuItemType[] = [];
 const kusamaChains: DropdownMenuItemType[] = [];
 const soloChains: DropdownMenuItemType[] = [];
 const testChains: DropdownMenuItemType[] = [];
@@ -37,8 +37,8 @@ for (const key of Object.keys(network)) {
 	};
 
 	switch(chainProperties[keyVal]?.category) {
-	case 'polkadot':
-		polkadotChains.push(optionObj);
+	case 'selendra':
+		selendraChains.push(optionObj);
 		break;
 	case 'kusama':
 		kusamaChains.push(optionObj);
@@ -59,10 +59,10 @@ const NetworkDropdown: FC<{setSidedrawer: React.Dispatch<React.SetStateAction<bo
 				return (
 					<Card className='max-w-[356px] max-h-[52vh] overflow-y-auto'>
 						<>
-							<div className='text-navBlue font-medium'>Polkadot &amp; Parachains</div>
+							<div className='text-navBlue font-medium'>Selendra &amp; Parachains</div>
 							<Row className="mt-2">
 								{
-									polkadotChains.map(optionObj => (
+									selendraChains.map(optionObj => (
 										<Col span={12} key={optionObj.key} className="flex">{optionObj.label}</Col>
 									))
 								}

@@ -53,7 +53,7 @@ const DEPOSIT: Record<string, number> = {
 	'kusama': 33.3333,
 	'moonbeam': 12.5800,
 	'moonriver': 1.0258,
-	'polkadot': 20.2580
+	'selendra': 20.2580
 };
 
 function setHasVal(val: string, setActive: null | ((isActive: boolean) => void)): void {

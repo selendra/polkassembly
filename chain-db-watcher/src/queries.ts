@@ -273,10 +273,6 @@ export const referendumV2Subscription = gql`
                 preimage {
                     author
                     hash
-                    preimageArguments {
-                        name
-                        value
-                    }
                 }
                 submitted
             }

@@ -10,7 +10,6 @@ import subscanApiHeaders from 'src/global/subscanApiHeaders';
 import { LoadingStatusType } from 'src/types';
 import Address from 'src/ui-components/Address';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
-import formatBnBalance from 'src/util/formatBnBalance';
 import getNetwork from 'src/util/getNetwork';
 
 const NETWORK = getNetwork();
@@ -78,31 +77,20 @@ const VotersList = ({ className, referendumId } : Props) => {
 							<h6 className='dashboard-heading'>Voters</h6>
 						</div>
 
-						<div className='flex flex-col text-xs xl:text-sm xl:max-h-screen gap-y-1 overflow-y-auto px-0 text-sidebarBlue'>
-							<div className='flex text-xs items-center justify-between mb-9 font-semibold'>
-								<div className='w-[135px]'>Voter</div>
-								<div><span className='hidden md:inline-block'>Amount</span><span className='inline-block md:hidden'>Amt.</span></div>
-								<div>Conviction</div>
-								<div>Vote</div>
-							</div>
-
+						<div className='flex flex-col justify-between gap-y-1 h-screen overflow-y-auto px-0 md:px-3'>
 							{votersList.map((voteData: any, index:number) =>
-								<div className='flex items-center justify-between mb-9' key={index}>
-									<div className='w-[110px] max-w-[110px] overflow-ellipsis'>
-										<Address textClassName='w-[90px]' displayInline={true} address={voteData.account.address} />
+								<div className='flex items-center justify-between mb-4' key={index}>
+									<div className='item overflow-ellipsis'>
+										<Address address={voteData.account.address} />
 									</div>
-
-									<div>{formatBnBalance(voteData.amount, { numberAfterComma: 2, withUnit: true })}</div>
-
-									<div>{voteData.conviction}x</div>
 
 									{voteData.passed ?
 										<div className='flex items-center text-aye_green text-md'>
-											<LikeFilled className='mr-2' />
+											<LikeFilled className='mr-2' /> Aye
 										</div>
 										:
 										<div className='flex items-center text-nay_red text-md'>
-											<DislikeFilled className='mr-2' />
+											<DislikeFilled className='mr-2' /> Nay
 										</div>
 									}
 								</div>

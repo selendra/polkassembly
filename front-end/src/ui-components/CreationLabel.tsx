@@ -23,18 +23,16 @@ interface Props{
 const CreationLabel = ({ className, children, created_at, defaultAddress, text, username, topic } : Props) => {
 	const relativeCreatedAt = getRelativeCreatedAt(created_at);
 
-	return <div className={`${className} text-navBlue text-xs flex flex-col md:flex-row md:items-center`}>
-		<div className='flex flex-col md:flex-row md:items-center w-full md:w-auto'>
-			<div className='flex items-center'>
-				{!text && <span className='mr-1'>By:</span>}
-				<NameLabel
-					defaultAddress={defaultAddress}
-					username={username}
-				/>
-				{text}&nbsp;
-			</div>
+	return <div className={`${className} text-navBlue text-xs flex flex-col min-[365px]:flex-row min-[365px]:items-center`}>
+		<div className='flex items-center'>
+			{!text && <span className='mr-1'>By:</span>}
+			<NameLabel
+				defaultAddress={defaultAddress}
+				username={username}
+			/>
+			{text}&nbsp;
 			{topic &&
-			<div className='flex items-center'> <span className='mr-1.5 ml-auto'>in</span> <InlineTag className='ml-2' topic={topic} /> </div>
+			<> in <InlineTag className='ml-2' topic={topic} /> </>
 			}
 		</div>
 

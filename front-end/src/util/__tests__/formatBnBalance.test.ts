@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import formatBnBalance from '../formatBnBalance';
 
-jest.mock('../getNetwork', () => jest.fn(() => {return 'polkadot';}));
+jest.mock('../getNetwork', () => jest.fn(() => {return 'selendra';}));
 const getNetwork = require('../getNetwork');
 
 describe('Testing formatBnBalance', () => {
@@ -27,19 +27,19 @@ describe('Testing formatBnBalance', () => {
 		expect(formatBnBalance('53000000000000', { numberAfterComma: 1, withUnit: true } )).toEqual('53.0 KSM');
 	});
 
-	// Polkadot formatting
-	it('for Polkadot with numberAfterComma option set to 2', () => {
-		getNetwork.mockImplementation(() => 'polkadot');
+	// Selendra formatting
+	it('for Selendra with numberAfterComma option set to 2', () => {
+		getNetwork.mockImplementation(() => 'selendra');
 		expect(formatBnBalance('1000000000000000000', { numberAfterComma: 2 } )).toEqual('1.00');
 	});
 
-	it('for Polkadot with withThousandDelimitor option set to false', () => {
-		getNetwork.mockImplementation(() => 'polkadot');
+	it('for Selendra with withThousandDelimitor option set to false', () => {
+		getNetwork.mockImplementation(() => 'selendra');
 		expect(formatBnBalance('1000000000000000000000', { numberAfterComma: 0, withThousandDelimitor: false  } )).toEqual('1000');
 	});
 
-	it('for Polkadot with withUnit option set to true', () => {
-		getNetwork.mockImplementation(() => 'polkadot');
-		expect(formatBnBalance('53000000000000000000', { numberAfterComma: 1, withUnit: true } )).toEqual('53.0 DOT');
+	it('for Selendra with withUnit option set to true', () => {
+		getNetwork.mockImplementation(() => 'selendra');
+		expect(formatBnBalance('53000000000000000000', { numberAfterComma: 1, withUnit: true } )).toEqual('53.0 SEL');
 	});
 });

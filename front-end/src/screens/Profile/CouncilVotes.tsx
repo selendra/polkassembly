@@ -31,7 +31,7 @@ interface SUBQUERY_LINKS_TYPE {
 
 const SUBQUERY_LINKS: SUBQUERY_LINKS_TYPE = {
 	kusama: 'https://api.subquery.network/sq/Premiurly/kusama-council-proposals',
-	polkadot: 'https://api.subquery.network/sq/subquery/tutorial---councillor-voting'
+	selendra: 'https://api.subquery.network/sq/subquery/tutorial---councillor-voting'
 };
 
 const NETWORK = getNetwork();

@@ -14,5 +14,4 @@ RUN yarn
 COPY ./ ./
 
 # Create the database schema
-CMD ["yarn", "prisma", "deploy"]
-
+CMD ["yarn", "start:node_watcher"]

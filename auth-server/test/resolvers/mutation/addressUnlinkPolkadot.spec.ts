@@ -5,7 +5,7 @@ import 'mocha';
 
 import { AuthenticationError, ForbiddenError } from 'apollo-server';
 import { expect } from 'chai';
-import { uuid } from 'uuidv4';
+import { v4 as uuid } from 'uuid';
 
 import Address from '../../../src/model/Address';
 import User from '../../../src/model/User';
@@ -35,7 +35,7 @@ describe('addressUnlink mutation', () => {
 			.query()
 			.allowInsert('[network, address, user_id, public_key, sign_message, verified]')
 			.insert({
-				network: NetworkEnum.POLKADOT,
+				network: NetworkEnum.SELENDRA,
 				address,
 				user_id: signupUserId,
 				public_key: publicKey,
